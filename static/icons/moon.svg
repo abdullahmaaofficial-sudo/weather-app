@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="moonGrad" cx="30%" cy="35%" r="70%">
+      <stop offset="0%" style="stop-color:#FFFEF7;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#F0F0E8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D8D8D0;stop-opacity:1" />
+    </radialGradient>
+    <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#E8E8FF;stop-opacity:0.5" />
+      <stop offset="100%" style="stop-color:#C0C0E8;stop-opacity:0" />
+    </radialGradient>
+    <radialGradient id="crater" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#C8C8C0;stop-opacity:0.5" />
+      <stop offset="100%" style="stop-color:#D8D8D0;stop-opacity:0.2" />
+    </radialGradient>
+    <filter id="moonGlow">
+      <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Outer glow -->
+  <ellipse cx="95" cy="100" rx="70" ry="70" fill="url(#moonGlow)" opacity="0.6"/>
+  
+  <!-- Crescent moon - proper C shape facing right -->
+  <g filter="url(#moonGlow)">
+    <circle cx="100" cy="100" r="48" fill="url(#moonGrad)"/>
+    <circle cx="115" cy="100" r="42" fill="#0f0f1a"/>
+  </g>
+  
+  <!-- Craters on visible crescent -->
+  <g opacity="0.6">
+    <ellipse cx="82" cy="88" rx="9" ry="8" fill="url(#crater)"/>
+    <ellipse cx="92" cy="105" rx="7" ry="6.5" fill="url(#crater)"/>
+    <ellipse cx="75" cy="102" rx="6" ry="5.5" fill="url(#crater)"/>
+    <ellipse cx="88" cy="95" rx="5" ry="4.5" fill="url(#crater)"/>
+    <ellipse cx="78" cy="115" rx="5.5" ry="5" fill="url(#crater)"/>
+    <ellipse cx="95" cy="85" rx="4" ry="3.5" fill="url(#crater)"/>
+    <ellipse cx="70" cy="95" rx="4.5" ry="4" fill="url(#crater)"/>
+  </g>
+  
+  <!-- Highlights on crescent -->
+  <ellipse cx="75" cy="85" rx="15" ry="18" fill="#FFF" opacity="0.35"/>
+  <ellipse cx="85" cy="93" rx="10" ry="12" fill="#FFF" opacity="0.25"/>
+  
+  <!-- Stars around moon -->
+  <g fill="#FFF" opacity="0.85">
+    <circle cx="35" cy="60" r="2.5"/>
+    <circle cx="165" cy="65" r="2.5"/>
+    <circle cx="40" cy="140" r="2.5"/>
+    <circle cx="170" cy="135" r="2"/>
+    <circle cx="30" cy="100" r="2"/>
+    <circle cx="175" cy="105" r="2.5"/>
+    
+    <circle cx="50" cy="75" r="1.5"/>
+    <circle cx="155" cy="80" r="1.8"/>
+    <circle cx="55" cy="125" r="1.6"/>
+    <circle cx="160" cy="120" r="1.7"/>
+    <circle cx="45" cy="115" r="1.3"/>
+    <circle cx="165" cy="90" r="1.5"/>
+  </g>
+  
+  <!-- Star twinkles -->
+  <g fill="#FFF" opacity="0.7">
+    <polygon points="35,55 35.6,58.5 39,59.1 35.6,59.7 35,63.2 34.4,59.7 31,59.1 34.4,58.5"/>
+    <polygon points="170,135 170.6,138.5 174,139.1 170.6,139.7 170,143.2 169.4,139.7 166,139.1 169.4,138.5"/>
+  </g>
+</svg>

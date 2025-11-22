@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="rainCloud" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#D8DFEA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B0BAC9;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="rainDrop" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5BA8E8;stop-opacity:0.95" />
+      <stop offset="100%" style="stop-color:#3D8DD6;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.5"/>
+      <feOffset dx="2" dy="3"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.35"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Cloud -->
+  <g filter="url(#shadow)">
+    <ellipse cx="100" cy="75" rx="40" ry="32" fill="url(#rainCloud)"/>
+    <ellipse cx="70" cy="88" rx="35" ry="28" fill="url(#rainCloud)"/>
+    <ellipse cx="130" cy="88" rx="37" ry="29" fill="url(#rainCloud)"/>
+    <ellipse cx="100" cy="98" rx="44" ry="26" fill="url(#rainCloud)"/>
+    <rect x="63" y="82" width="74" height="32" fill="url(#rainCloud)"/>
+  </g>
+  
+  <!-- Cloud highlights -->
+  <ellipse cx="82" cy="78" rx="14" ry="12" fill="#FFF" opacity="0.5"/>
+  <ellipse cx="118" cy="82" rx="12" ry="10" fill="#FFF" opacity="0.45"/>
+  
+  <!-- Rain drops (heavier than drizzle) -->
+  <g opacity="0.9">
+    <!-- Column 1 -->
+    <ellipse cx="60" cy="125" rx="3.5" ry="8" fill="url(#rainDrop)"/>
+    <ellipse cx="60" cy="155" rx="3.5" ry="8" fill="url(#rainDrop)"/>
+    
+    <!-- Column 2 -->
+    <ellipse cx="80" cy="130" rx="3.5" ry="8" fill="url(#rainDrop)"/>
+    <ellipse cx="80" cy="160" rx="3.5" ry="8" fill="url(#rainDrop)"/>
+    
+    <!-- Column 3 -->
+    <ellipse cx="100" cy="120" rx="3.5" ry="8" fill="url(#rainDrop)"/>
+    <ellipse cx="100" cy="150" rx="3.5" ry="8" fill="url(#rainDrop)"/>
+    <ellipse cx="100" cy="175" rx="3.5" ry="8" fill="url(#rainDrop)"/>
+    
+    <!-- Column 4 -->
+    <ellipse cx="120" cy="128" rx="3.5" ry="8" fill="url(#rainDrop)"/>
+    <ellipse cx="120" cy="158" rx="3.5" ry="8" fill="url(#rainDrop)"/>
+    
+    <!-- Column 5 -->
+    <ellipse cx="140" cy="133" rx="3.5" ry="8" fill="url(#rainDrop)"/>
+    <ellipse cx="140" cy="163" rx="3.5" ry="8" fill="url(#rainDrop)"/>
+  </g>
+  
+  <!-- Drop highlights -->
+  <g opacity="0.7" fill="#FFF">
+    <ellipse cx="60" cy="123" rx="1.2" ry="3"/>
+    <ellipse cx="100" cy="118" rx="1.2" ry="3"/>
+    <ellipse cx="120" cy="126" rx="1.2" ry="3"/>
+    <ellipse cx="80" cy="128" rx="1.2" ry="3"/>
+  </g>
+</svg>

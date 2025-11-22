@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div id="loading">
+        <div class="spinner"></div>
+    </div>
+    
+    <header>
+        <div class="header-content">
+            <h1><i class="fa-solid fa-cloud-sun"></i> Weather App</h1>
+            
+            <!-- Controls in Header for Large Screens -->
+            <div class="header-controls">
+                <form action="/searchCity" method="post" class="search-form">
+                    <div class="search-input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" name="city_name" placeholder="Search city..." autocomplete="off">
+                    </div>
+                    <button type="submit" class="search-btn">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+                <a href="/" class="location-btn">
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                    <span>My Location</span>
+                </a>
+                <div class="unit-selector">
+                    <select id="unit">
+                        <option value="metric" {% if selected_unit == 'metric' %}selected{% endif %}>°C</option>
+                        <option value="imperial" {% if selected_unit == 'imperial' %}selected{% endif %}>°F</option>
+                        <option value="standard" {% if selected_unit == 'standard' %}selected{% endif %}>K</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Mobile Controls (shown only on small screens) -->
+        <section class="mobile-controls">
+            <form action="/searchCity" method="post" class="search-form">
+                <div class="search-input-wrapper">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" name="city_name" placeholder="Search city..." autocomplete="off">
+                </div>
+                <button type="submit" class="search-btn">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+            <div class="mobile-controls-row">
+                <a href="/" class="location-btn">
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                    <span>My Location</span>
+                </a>
+                <div class="unit-selector">
+                    <select id="unit-mobile">
+                        <option value="metric" {% if selected_unit == 'metric' %}selected{% endif %}>°C</option>
+                        <option value="imperial" {% if selected_unit == 'imperial' %}selected{% endif %}>°F</option>
+                        <option value="standard" {% if selected_unit == 'standard' %}selected{% endif %}>K</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        {% if error %}
+        <div class="error-banner">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>{{ error }}</span>
+        </div>
+        {% endif %}
+
+        <!-- Current Weather Section -->
+        <section class="current-section">
+            {% for val in current_weather %}
+            <div class="current-main">
+                <div class="current-left">
+                    <div class="location-info">
+                        <h2><i class="fa-solid fa-location-dot"></i> {{ val.location }}</h2>
+                        <p class="timezone"><i class="fa-solid fa-globe"></i> {{ val.timezone }} • {{ val.time }}</p>
+                    </div>
+                    <div class="weather-display">
+                        <div class="weather-icon">
+                            <img src="{{ url_for('static', filename='icons/' + val.icon) }}" alt="{{ val.weather_des }}">
+                        </div>
+                        <div class="weather-temp">
+                            <span class="temp-main">{{ val.temp }}</span>
+                            <span class="temp-feels">Feels like {{ val.feels }}</span>
+                            <span class="weather-desc">{{ val.weather_des }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="current-right">
+                    <div class="sun-times">
+                        <div class="sun-item sunrise">
+                            <i class="fa-solid fa-sun"></i>
+                            <div>
+                                <span class="label">Sunrise</span>
+                                <span class="value">{{ val.sunrise }}</span>
+                            </div>
+                        </div>
+                        <div class="sun-item sunset">
+                            <i class="fa-solid fa-moon"></i>
+                            <div>
+                                <span class="label">Sunset</span>
+                                <span class="value">{{ val.sunset }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weather-details">
+                        <div class="detail-item">
+                            <i class="fa-solid fa-droplet"></i>
+                            <span class="detail-value">{{ val.humidity }}</span>
+                            <span class="detail-label">Humidity</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fa-solid fa-wind"></i>
+                            <span class="detail-value">{{ val.wind_speed }}</span>
+                            <span class="detail-label">Wind</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fa-solid fa-gauge-high"></i>
+                            <span class="detail-value">{{ val.pressure }}</span>
+                            <span class="detail-label">Pressure</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fa-solid fa-eye"></i>
+                            <span class="detail-value">{{ val.visibility }}</span>
+                            <span class="detail-label">Visibility</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fa-solid fa-cloud"></i>
+                            <span class="detail-value">{{ val.cloud }}</span>
+                            <span class="detail-label">Clouds</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+
+        <!-- Hourly Forecast -->
+        <section class="hourly-section">
+            <h2 class="section-title"><i class="fa-regular fa-clock"></i> Hourly Forecast</h2>
+            <div class="hourly-wrapper">
+                <button type="button" class="scroll-btn prev" id="prevHour">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <div class="hourly-container" id="hourSlider">
+                    {% for h in hours_weather %}
+                    <div class="hourly-card">
+                        <span class="hour-time">{{ h.time }}</span>
+                        <img src="{{ url_for('static', filename='icons/' + h.icon) }}" alt="{{ h.desc }}">
+                        <span class="hour-temp">{{ h.temp }}</span>
+                        <span class="hour-desc">{{ h.desc }}</span>
+                        <span class="hour-feels"><i class="fa-solid fa-person"></i> {{ h.feels }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="button" class="scroll-btn next" id="nextHour">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Daily Forecast -->
+        <section class="daily-section">
+            <h2 class="section-title"><i class="fa-regular fa-calendar"></i> 5-Day Forecast</h2>
+            <div class="daily-grid">
+                {% for item in forecast_weather %}
+                <a href="/details/{{ item.city }}/{{ item.link_date }}" class="day-link">
+                    <div class="daily-card">
+                        <div class="daily-header">
+                            <span class="day-name">{{ item.date }}</span>
+                            <span class="day-desc">{{ item.desc }}</span>
+                        </div>
+                        <div class="daily-icon">
+                            <img src="{{ url_for('static', filename='icons/' + item.icon) }}" alt="{{ item.desc }}">
+                        </div>
+                        <div class="daily-temps">
+                            <span class="temp-high"><i class="fa-solid fa-arrow-up"></i> {{ item.avg_max }}</span>
+                            <span class="temp-low"><i class="fa-solid fa-arrow-down"></i> {{ item.avg_min }}</span>
+                        </div>
+                        <div class="daily-stats">
+                            <span><i class="fa-solid fa-droplet"></i> {{ item.humidity }}%</span>
+                            <span><i class="fa-solid fa-wind"></i> {{ item.wind_speed }}</span>
+                        </div>
+                        <div class="view-more">
+                            <span>View Details</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Made with <i class="fa-solid fa-heart"></i> by Weather App</p>
+        <p class="footer-credit">Data from OpenWeatherMap</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

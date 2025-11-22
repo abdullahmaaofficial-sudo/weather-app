@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="stormCloud" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#6B7C8F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4A5866;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="lightning" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF44F;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFE135;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFC107;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="heavyRain" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5BA8E8;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#3D8DD6;stop-opacity:1" />
+    </linearGradient>
+    <filter id="cloudShadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="2" dy="4"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="lightningGlow">
+      <feGaussianBlur stdDeviation="2.5"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Dark storm cloud -->
+  <g filter="url(#cloudShadow)">
+    <ellipse cx="100" cy="70" rx="42" ry="34" fill="url(#stormCloud)"/>
+    <ellipse cx="68" cy="84" rx="37" ry="30" fill="url(#stormCloud)"/>
+    <ellipse cx="132" cy="84" rx="39" ry="31" fill="url(#stormCloud)"/>
+    <ellipse cx="100" cy="94" rx="46" ry="28" fill="url(#stormCloud)"/>
+    <rect x="60" y="78" width="80" height="34" fill="url(#stormCloud)"/>
+  </g>
+  
+  <!-- Darker cloud base -->
+  <ellipse cx="100" cy="105" rx="50" ry="15" fill="#3A4752" opacity="0.6"/>
+  
+  <!-- Lightning bolt -->
+  <g filter="url(#lightningGlow)">
+    <path d="M 105 85 L 95 115 L 102 115 L 92 150 L 115 120 L 105 120 Z" 
+          fill="url(#lightning)" 
+          stroke="#FFD700" 
+          stroke-width="1"/>
+  </g>
+  
+  <!-- Lightning highlight -->
+  <path d="M 103 90 L 97 110 L 100 110 L 95 130" 
+        fill="none" 
+        stroke="#FFF" 
+        stroke-width="2" 
+        opacity="0.6"/>
+  
+  <!-- Heavy rain -->
+  <g opacity="0.85">
+    <ellipse cx="55" cy="125" rx="3.5" ry="9" fill="url(#heavyRain)"/>
+    <ellipse cx="55" cy="158" rx="3.5" ry="9" fill="url(#heavyRain)"/>
+    
+    <ellipse cx="75" cy="130" rx="3.5" ry="9" fill="url(#heavyRain)"/>
+    <ellipse cx="75" cy="163" rx="3.5" ry="9" fill="url(#heavyRain)"/>
+    
+    <ellipse cx="125" cy="135" rx="3.5" ry="9" fill="url(#heavyRain)"/>
+    <ellipse cx="125" cy="168" rx="3.5" ry="9" fill="url(#heavyRain)"/>
+    
+    <ellipse cx="145" cy="128" rx="3.5" ry="9" fill="url(#heavyRain)"/>
+    <ellipse cx="145" cy="161" rx="3.5" ry="9" fill="url(#heavyRain)"/>
+  </g>
+</svg>

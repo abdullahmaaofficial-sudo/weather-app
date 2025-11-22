@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="mistLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#B8C8D8;stop-opacity:0.3" />
+      <stop offset="50%" style="stop-color:#D0DEE8;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#B8C8D8;stop-opacity:0.3" />
+    </linearGradient>
+    <linearGradient id="mistLine2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#A8B8C8;stop-opacity:0.4" />
+      <stop offset="50%" style="stop-color:#C0D0E0;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#A8B8C8;stop-opacity:0.4" />
+    </linearGradient>
+    <linearGradient id="cloudMist" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E0E8F0;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#C5D0DD;stop-opacity:0.8" />
+    </linearGradient>
+    <filter id="blur">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+    </filter>
+    <filter id="lightBlur">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" />
+    </filter>
+  </defs>
+  
+  <!-- Misty cloud at top -->
+  <g opacity="0.6" filter="url(#lightBlur)">
+    <ellipse cx="100" cy="60" rx="45" ry="25" fill="url(#cloudMist)"/>
+    <ellipse cx="70" cy="68" rx="38" ry="22" fill="url(#cloudMist)"/>
+    <ellipse cx="130" cy="68" rx="40" ry="23" fill="url(#cloudMist)"/>
+  </g>
+  
+  <!-- Mist layers (horizontal wavy lines) -->
+  <g filter="url(#blur)">
+    <!-- Layer 1 -->
+    <path d="M 30 95 Q 50 92, 70 95 T 110 95 T 150 95 T 170 95" 
+          fill="none" 
+          stroke="url(#mistLine)" 
+          stroke-width="8" 
+          stroke-linecap="round" 
+          opacity="0.7"/>
+    
+    <!-- Layer 2 -->
+    <path d="M 40 110 Q 60 107, 80 110 T 120 110 T 160 110" 
+          fill="none" 
+          stroke="url(#mistLine2)" 
+          stroke-width="9" 
+          stroke-linecap="round" 
+          opacity="0.8"/>
+    
+    <!-- Layer 3 -->
+    <path d="M 25 125 Q 45 122, 65 125 T 105 125 T 145 125 T 175 125" 
+          fill="none" 
+          stroke="url(#mistLine)" 
+          stroke-width="10" 
+          stroke-linecap="round" 
+          opacity="0.75"/>
+    
+    <!-- Layer 4 -->
+    <path d="M 35 140 Q 55 137, 75 140 T 115 140 T 155 140 T 170 140" 
+          fill="none" 
+          stroke="url(#mistLine2)" 
+          stroke-width="8" 
+          stroke-linecap="round" 
+          opacity="0.7"/>
+    
+    <!-- Layer 5 -->
+    <path d="M 45 155 Q 65 152, 85 155 T 125 155 T 165 155" 
+          fill="none" 
+          stroke="url(#mistLine)" 
+          stroke-width="9" 
+          stroke-linecap="round" 
+          opacity="0.65"/>
+    
+    <!-- Layer 6 -->
+    <path d="M 30 170 Q 50 167, 70 170 T 110 170 T 150 170 T 175 170" 
+          fill="none" 
+          stroke="url(#mistLine2)" 
+          stroke-width="7" 
+          stroke-linecap="round" 
+          opacity="0.6"/>
+  </g>
+  
+  <!-- Additional soft overlay for depth -->
+  <g opacity="0.4" filter="url(#blur)">
+    <ellipse cx="100" cy="120" rx="60" ry="50" fill="#D5E0EB"/>
+  </g>
+</svg>

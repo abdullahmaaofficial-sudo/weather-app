@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <radialGradient id="sunGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFF176;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#FFD54F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFB300;stop-opacity:1" />
+    </radialGradient>
+    <filter id="sunGlow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <!-- Outer glow -->
+  <circle cx="60" cy="60" r="28" fill="#FFF176" opacity="0.3"/>
+  <!-- Sun circle -->
+  <circle cx="60" cy="60" r="22" fill="url(#sunGradient)" filter="url(#sunGlow)"/>
+  <!-- Sun rays (long) -->
+  <line x1="60" y1="12" x2="60" y2="24" stroke="#FFD54F" stroke-width="4" stroke-linecap="round"/>
+  <line x1="60" y1="96" x2="60" y2="108" stroke="#FFD54F" stroke-width="4" stroke-linecap="round"/>
+  <line x1="12" y1="60" x2="24" y2="60" stroke="#FFD54F" stroke-width="4" stroke-linecap="round"/>
+  <line x1="96" y1="60" x2="108" y2="60" stroke="#FFD54F" stroke-width="4" stroke-linecap="round"/>
+  <!-- Diagonal rays -->
+  <line x1="23" y1="23" x2="32" y2="32" stroke="#FFD54F" stroke-width="4" stroke-linecap="round"/>
+  <line x1="88" y1="88" x2="97" y2="97" stroke="#FFD54F" stroke-width="4" stroke-linecap="round"/>
+  <line x1="97" y1="23" x2="88" y2="32" stroke="#FFD54F" stroke-width="4" stroke-linecap="round"/>
+  <line x1="32" y1="88" x2="23" y2="97" stroke="#FFD54F" stroke-width="4" stroke-linecap="round"/>
+  <!-- Short rays between -->
+  <line x1="60" y1="18" x2="60" y2="28" stroke="#FFA726" stroke-width="3" stroke-linecap="round" opacity="0.6" transform="rotate(22.5 60 60)"/>
+  <line x1="60" y1="18" x2="60" y2="28" stroke="#FFA726" stroke-width="3" stroke-linecap="round" opacity="0.6" transform="rotate(67.5 60 60)"/>
+  <line x1="60" y1="18" x2="60" y2="28" stroke="#FFA726" stroke-width="3" stroke-linecap="round" opacity="0.6" transform="rotate(112.5 60 60)"/>
+  <line x1="60" y1="18" x2="60" y2="28" stroke="#FFA726" stroke-width="3" stroke-linecap="round" opacity="0.6" transform="rotate(157.5 60 60)"/>
+  <line x1="60" y1="18" x2="60" y2="28" stroke="#FFA726" stroke-width="3" stroke-linecap="round" opacity="0.6" transform="rotate(202.5 60 60)"/>
+  <line x1="60" y1="18" x2="60" y2="28" stroke="#FFA726" stroke-width="3" stroke-linecap="round" opacity="0.6" transform="rotate(247.5 60 60)"/>
+  <line x1="60" y1="18" x2="60" y2="28" stroke="#FFA726" stroke-width="3" stroke-linecap="round" opacity="0.6" transform="rotate(292.5 60 60)"/>
+  <line x1="60" y1="18" x2="60" y2="28" stroke="#FFA726" stroke-width="3" stroke-linecap="round" opacity="0.6" transform="rotate(337.5 60 60)"/>
+</svg>

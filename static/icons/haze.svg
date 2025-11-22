@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="hazeLine1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4A574;stop-opacity:0.2" />
+      <stop offset="50%" style="stop-color:#E8C291;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#D4A574;stop-opacity:0.2" />
+    </linearGradient>
+    <linearGradient id="hazeLine2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#C99A6B;stop-opacity:0.3" />
+      <stop offset="50%" style="stop-color:#DDB685;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#C99A6B;stop-opacity:0.3" />
+    </linearGradient>
+    <radialGradient id="hazeGlow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" style="stop-color:#F4D9B0;stop-opacity:0.4" />
+      <stop offset="70%" style="stop-color:#E8C291;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#D4A574;stop-opacity:0" />
+    </radialGradient>
+    <filter id="hazeBlur">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" />
+    </filter>
+    <filter id="softBlur">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" />
+    </filter>
+  </defs>
+  
+  <!-- Hazy sun glow -->
+  <circle cx="100" cy="70" r="50" fill="url(#hazeGlow)" filter="url(#hazeBlur)"/>
+  
+  <!-- Dimmed sun -->
+  <circle cx="100" cy="70" r="32" fill="#F4D9B0" opacity="0.5" filter="url(#softBlur)"/>
+  <circle cx="100" cy="70" r="28" fill="#F9E5C4" opacity="0.6"/>
+  
+  <!-- Haze layers -->
+  <g filter="url(#hazeBlur)">
+    <!-- Layer 1 -->
+    <path d="M 25 95 Q 45 92, 65 95 T 105 95 T 145 95 T 175 95" 
+          fill="none" 
+          stroke="url(#hazeLine1)" 
+          stroke-width="10" 
+          stroke-linecap="round" 
+          opacity="0.6"/>
+    
+    <!-- Layer 2 -->
+    <path d="M 35 110 Q 55 107, 75 110 T 115 110 T 155 110 T 170 110" 
+          fill="none" 
+          stroke="url(#hazeLine2)" 
+          stroke-width="11" 
+          stroke-linecap="round" 
+          opacity="0.7"/>
+    
+    <!-- Layer 3 -->
+    <path d="M 20 125 Q 40 122, 60 125 T 100 125 T 140 125 T 180 125" 
+          fill="none" 
+          stroke="url(#hazeLine1)" 
+          stroke-width="12" 
+          stroke-linecap="round" 
+          opacity="0.65"/>
+    
+    <!-- Layer 4 -->
+    <path d="M 30 140 Q 50 137, 70 140 T 110 140 T 150 140 T 175 140" 
+          fill="none" 
+          stroke="url(#hazeLine2)" 
+          stroke-width="10" 
+          stroke-linecap="round" 
+          opacity="0.6"/>
+    
+    <!-- Layer 5 -->
+    <path d="M 40 155 Q 60 152, 80 155 T 120 155 T 160 155" 
+          fill="none" 
+          stroke="url(#hazeLine1)" 
+          stroke-width="11" 
+          stroke-linecap="round" 
+          opacity="0.55"/>
+    
+    <!-- Layer 6 -->
+    <path d="M 25 170 Q 45 167, 65 170 T 105 170 T 145 170 T 180 170" 
+          fill="none" 
+          stroke="url(#hazeLine2)" 
+          stroke-width="9" 
+          stroke-linecap="round" 
+          opacity="0.5"/>
+  </g>
+  
+  <!-- Additional atmospheric effect -->
+  <ellipse cx="100" cy="130" rx="70" ry="55" fill="#E8C291" opacity="0.15" filter="url(#hazeBlur)"/>
+</svg>

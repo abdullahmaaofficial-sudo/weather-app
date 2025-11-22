@@ -1,0 +1,503 @@
+/* ============================================
+   WEATHER APP DETAILS - RESPONSIVE STYLESHEET
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #0f0f1a;
+    --bg-secondary: #1a1a2e;
+    --bg-card: #16213e;
+    --bg-card-hover: #1f3460;
+    --text-primary: #ffffff;
+    --text-secondary: #a0aec0;
+    --accent: #00d4ff;
+    --accent-secondary: #7c3aed;
+    --accent-gradient: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
+    --humidity: #3b82f6;
+    --pressure: #10b981;
+    --wind: #8b5cf6;
+    --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.4);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --transition: all 0.3s ease;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+/* Loading Spinner */
+#loading {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 15, 26, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(8px);
+    transition: opacity 0.4s ease;
+}
+
+#loading.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(0, 212, 255, 0.2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Header */
+header {
+    background: var(--bg-secondary);
+    padding: 1rem 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.back-link {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border-radius: 50%;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.back-link:hover {
+    background: var(--accent);
+    color: var(--bg-primary);
+    transform: translateX(-4px);
+}
+
+.header-content h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header-content h1 i {
+    -webkit-text-fill-color: var(--accent);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.header-spacer {
+    width: 40px;
+}
+
+/* Main Content */
+main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.details-section {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.details-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.header-info h2 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header-info h2 i {
+    color: var(--accent);
+}
+
+.date-display {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.date-display i {
+    color: var(--accent);
+}
+
+/* Error Banner */
+.error-banner {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #ef4444;
+    font-weight: 500;
+}
+
+/* Hours Grid */
+.hours-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.hour-card {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    border: 1px solid transparent;
+    transition: var(--transition);
+    animation: fadeInUp 0.5s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hour-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+}
+
+.hour-time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--accent);
+    margin-bottom: 1rem;
+}
+
+.hour-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.hour-icon img {
+    width: 70px;
+    height: 70px;
+    filter: drop-shadow(0 4px 12px rgba(0, 212, 255, 0.2));
+}
+
+.hour-temp-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.temp-value {
+    font-size: 2rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.feels-value {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.feels-value i {
+    margin-right: 4px;
+}
+
+.hour-desc {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.hour-stats {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+}
+
+.stat-item i {
+    font-size: 1rem;
+}
+
+.stat-item:nth-child(1) i { color: var(--humidity); }
+.stat-item:nth-child(2) i { color: var(--pressure); }
+.stat-item:nth-child(3) i { color: var(--wind); }
+
+.stat-item span {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Back Button */
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: var(--accent-gradient);
+    border-radius: var(--radius-sm);
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+.back-button:hover {
+    transform: translateX(-8px);
+    box-shadow: var(--shadow-lg);
+}
+
+.back-button i {
+    transition: transform 0.3s ease;
+}
+
+.back-button:hover i {
+    transform: translateX(-4px);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    margin-top: 2rem;
+}
+
+footer i {
+    color: #ef4444;
+    animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.footer-credit {
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    opacity: 0.7;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Large Tablets */
+@media (max-width: 1200px) {
+    .hours-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Tablets */
+@media (max-width: 900px) {
+    .hours-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    header { padding: 1rem; }
+    
+    main { padding: 1rem; }
+    
+    .details-section { padding: 1.5rem; }
+    
+    .header-info h2 { font-size: 1.5rem; }
+}
+
+/* Large Phones */
+@media (max-width: 600px) {
+    html { font-size: 15px; }
+    
+    .header-content h1 { font-size: 1.25rem; }
+    
+    .hours-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .hour-card {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 0.5rem 1rem;
+        padding: 1rem;
+    }
+    
+    .hour-time {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+    
+    .hour-main {
+        grid-row: 2;
+        justify-content: flex-start;
+        margin-bottom: 0;
+    }
+    
+    .hour-icon img {
+        width: 55px;
+        height: 55px;
+    }
+    
+    .temp-value { font-size: 1.5rem; }
+    
+    .hour-desc {
+        grid-row: 2;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        text-align: right;
+        margin-bottom: 0;
+    }
+    
+    .hour-stats {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+        gap: 1.5rem;
+    }
+    
+    .stat-item {
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+    
+    .details-section { padding: 1rem; }
+    
+    .header-info h2 { font-size: 1.25rem; }
+    
+    .date-display { font-size: 1rem; }
+    
+    .back-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Small Phones */
+@media (max-width: 400px) {
+    html { font-size: 14px; }
+    
+    main { padding: 0.75rem; }
+    
+    .back-link {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .header-spacer { width: 36px; }
+    
+    .hour-stats {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+}
+
+/* Extra Small Phones */
+@media (max-width: 360px) {
+    html { font-size: 13px; }
+    
+    .header-content h1 { font-size: 1.1rem; }
+    
+    .hour-icon img {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .temp-value { font-size: 1.25rem; }
+}

@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="cloudGradDrizzle" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8EDF5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C5D0DD;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="dropGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#6DB3F2;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#4A9FE8;stop-opacity:1" />
+    </linearGradient>
+    <filter id="cloudShadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.5"/>
+      <feOffset dx="2" dy="3"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="dropGlow">
+      <feGaussianBlur stdDeviation="1.5"/>
+    </filter>
+  </defs>
+  
+  <!-- Cloud -->
+  <g filter="url(#cloudShadow)">
+    <ellipse cx="100" cy="85" rx="38" ry="30" fill="url(#cloudGradDrizzle)"/>
+    <ellipse cx="72" cy="98" rx="33" ry="27" fill="url(#cloudGradDrizzle)"/>
+    <ellipse cx="128" cy="98" rx="35" ry="28" fill="url(#cloudGradDrizzle)"/>
+    <ellipse cx="100" cy="108" rx="42" ry="24" fill="url(#cloudGradDrizzle)"/>
+    <rect x="65" y="92" width="70" height="30" fill="url(#cloudGradDrizzle)"/>
+  </g>
+  
+  <!-- Cloud highlights -->
+  <ellipse cx="85" cy="88" rx="13" ry="11" fill="#FFF" opacity="0.6"/>
+  <ellipse cx="115" cy="92" rx="11" ry="9" fill="#FFF" opacity="0.5"/>
+  
+  <!-- Light drizzle drops (smaller, more delicate) -->
+  <g opacity="0.85">
+    <!-- Row 1 -->
+    <ellipse cx="70" cy="135" rx="2.5" ry="5" fill="url(#dropGrad)"/>
+    <ellipse cx="90" cy="138" rx="2.5" ry="5" fill="url(#dropGrad)"/>
+    <ellipse cx="110" cy="133" rx="2.5" ry="5" fill="url(#dropGrad)"/>
+    <ellipse cx="130" cy="137" rx="2.5" ry="5" fill="url(#dropGrad)"/>
+    
+    <!-- Row 2 -->
+    <ellipse cx="60" cy="150" rx="2.5" ry="5" fill="url(#dropGrad)"/>
+    <ellipse cx="80" cy="153" rx="2.5" ry="5" fill="url(#dropGrad)"/>
+    <ellipse cx="100" cy="148" rx="2.5" ry="5" fill="url(#dropGrad)"/>
+    <ellipse cx="120" cy="152" rx="2.5" ry="5" fill="url(#dropGrad)"/>
+    <ellipse cx="140" cy="149" rx="2.5" ry="5" fill="url(#dropGrad)"/>
+    
+    <!-- Row 3 -->
+    <ellipse cx="65" cy="165" rx="2.5" ry="5" fill="url(#dropGrad)"/>
+    <ellipse cx="85" cy="168" rx="2.5" ry="5" fill="url(#dropGrad)"/>
+    <ellipse cx="105" cy="163" rx="2.5" ry="5" fill="url(#dropGrad)"/>
+    <ellipse cx="125" cy="167" rx="2.5" ry="5" fill="url(#dropGrad)"/>
+  </g>
+  
+  <!-- Drop highlights -->
+  <g opacity="0.6" fill="#FFF">
+    <ellipse cx="70" cy="133" rx="1" ry="2"/>
+    <ellipse cx="100" cy="146" rx="1" ry="2"/>
+    <ellipse cx="125" cy="165" rx="1" ry="2"/>
+  </g>
+</svg>

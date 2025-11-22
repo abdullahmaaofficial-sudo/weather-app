@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </radialGradient>
+    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0E7FF;stop-opacity:1" />
+    </linearGradient>
+    <filter id="cloudShadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3.5"/>
+      <feOffset dx="2" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.35"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="sunGlow">
+      <feGaussianBlur stdDeviation="4"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Sun behind cloud -->
+  <circle cx="130" cy="90" r="40" fill="url(#sunGrad)" opacity="0.9" filter="url(#sunGlow)"/>
+  <ellipse cx="117" cy="82" rx="13" ry="16" fill="#FFF" opacity="0.5"/>
+  
+  <!-- Sun rays peeking out -->
+  <g opacity="0.7" stroke="#FFD700" stroke-width="3.5" stroke-linecap="round">
+    <line x1="165" y1="65" x2="178" y2="58"/>
+    <line x1="175" y1="90" x2="188" y2="90"/>
+    <line x1="170" y1="115" x2="182" y2="122"/>
+    <line x1="145" y1="50" x2="150" y2="37"/>
+    <line x1="155" y1="130" x2="162" y2="142"/>
+  </g>
+  
+  <!-- Sun glow behind cloud -->
+  <ellipse cx="130" cy="90" rx="55" ry="50" fill="#FFD700" opacity="0.15" filter="url(#sunGlow)"/>
+  
+  <!-- Cloud (in front) -->
+  <g filter="url(#cloudShadow)">
+    <ellipse cx="105" cy="110" rx="42" ry="34" fill="url(#cloudGrad)"/>
+    <ellipse cx="75" cy="123" rx="36" ry="30" fill="url(#cloudGrad)"/>
+    <ellipse cx="135" cy="123" rx="38" ry="31" fill="url(#cloudGrad)"/>
+    <ellipse cx="105" cy="135" rx="46" ry="26" fill="url(#cloudGrad)"/>
+    <rect x="63" y="115" width="84" height="36" fill="url(#cloudGrad)"/>
+  </g>
+  
+  <!-- Cloud highlights -->
+  <ellipse cx="88" cy="115" rx="15" ry="13" fill="#FFF" opacity="0.7"/>
+  <ellipse cx="125" cy="120" rx="13" ry="11" fill="#FFF" opacity="0.65"/>
+  <ellipse cx="105" cy="127" rx="10" ry="8" fill="#FFF" opacity="0.5"/>
+</svg>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App - {{ date }}</title>
+     <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/details.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <header>
+        <div class="header-content">
+            <a href="/" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <h1><i class="fa-solid fa-cloud-sun"></i> Weather App</h1>
+            <div class="header-spacer"></div>
+        </div>
+    </header>
+
+    <main>
+        <section class="details-section">
+            <div class="details-header">
+                <div class="header-info">
+                    <h2><i class="fa-solid fa-location-dot"></i> {{ city }}</h2>
+                    <p class="date-display">
+                        <i class="fa-regular fa-calendar"></i> 
+                        {{ day }}, {{ date }}
+                    </p>
+                </div>
+            </div>
+
+            {% if error %}
+            <div class="error-banner">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>{{ error }}</span>
+            </div>
+            {% endif %}
+
+            <div class="hours-grid">
+                {% for item in weather_list %}
+                <div class="hour-card" style="animation-delay: '{{ loop.index * 0.05 }}'s">
+                    <div class="hour-time">
+                        <i class="fa-regular fa-clock"></i>
+                        <span>{{ item.hour }}</span>
+                    </div>
+                    
+                    <div class="hour-main">
+                        <div class="hour-icon">
+                            <img src="{{ url_for('static', filename='icons/' + item.icon) }}" alt="{{ item.desc }}">
+                        </div>
+                        <div class="hour-temp-info">
+                            <span class="temp-value">{{ item.temp }}</span>
+                            <span class="feels-value">
+                                <i class="fa-solid fa-person"></i> {{ item.feels }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="hour-desc">{{ item.desc }}</div>
+                    
+                    <div class="hour-stats">
+                        <div class="stat-item">
+                            <i class="fa-solid fa-droplet"></i>
+                            <span>{{ item.humidity }}%</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fa-solid fa-gauge-high"></i>
+                            <span>{{ item.pressure }}hPa</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fa-solid fa-wind"></i>
+                            <span>{{ item.speed }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <a href="/" class="back-button">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Back to Home</span>
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <p>Made with <i class="fa-solid fa-heart"></i> by Weather App</p>
+        <p class="footer-credit">Data from OpenWeatherMap</p>
+    </footer>
+
+    <script>
+        // Loading Spinner Control
+        const loading = document.getElementById('loading');
+        
+        function hideLoading() {
+            if (loading) loading.classList.add('hidden');
+        }
+        
+        // Hide loading on page load
+        window.addEventListener('load', hideLoading);
+        window.addEventListener('pageshow', hideLoading);
+        
+        // Show loading when back button is clicked
+        const backButton = document.querySelector('.back-button');
+        const backLink = document.querySelector('.back-link');
+        
+        if (backButton) {
+            backButton.addEventListener('click', () => {
+                loading.classList.remove('hidden');
+            });
+        }
+        
+        if (backLink) {
+            backLink.addEventListener('click', () => {
+                loading.classList.remove('hidden');
+            });
+        }
+    </script>
+</body>
+</html>
