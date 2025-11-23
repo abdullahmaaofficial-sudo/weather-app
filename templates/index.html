@@ -31,10 +31,10 @@
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </form>
-                <a href="/" class="location-btn">
+                <button type="button" class="location-btn" onclick="getLocation()">
                     <i class="fa-solid fa-location-crosshairs"></i>
                     <span>My Location</span>
-                </a>
+                </button>
                 <div class="unit-selector">
                     <select id="unit">
                         <option value="metric" {% if selected_unit == 'metric' %}selected{% endif %}>°C</option>
@@ -59,10 +59,10 @@
                 </button>
             </form>
             <div class="mobile-controls-row">
-                <a href="/" class="location-btn">
+                <button type="button" class="location-btn" onclick="getLocation()">
                     <i class="fa-solid fa-location-crosshairs"></i>
                     <span>My Location</span>
-                </a>
+                </button>
                 <div class="unit-selector">
                     <select id="unit-mobile">
                         <option value="metric" {% if selected_unit == 'metric' %}selected{% endif %}>°C</option>
