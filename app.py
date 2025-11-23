@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,session
+from flask import Flask,render_template,request,session,redirect, url_for
 from condition import clouds,mist_conditions,drizzle,rain,thunderstorm,snow,icon_map
 from flask_limiter import Limiter
 from flask_caching import Cache
@@ -45,17 +45,17 @@ def get_cloud_icon(cloud_percentage):
 def clean_city(city):
     return re.sub(r"[^a-zA-Z\s]", "", city).strip()
     
-@app.route("/")
+@app.route("/",methods = ['GET','POST'])
 def home_page(city=""):
     selected_unit = session.get("unit","metric")
     
+    # Check if city is provided, if not check session, then default
+    if city == "":
+        city = session.get('current_city', '')
+    
     # Determine actual city name first
     if city == "":
-        try:
-            LOC_DATA = requests.get("http://ip-api.com/json/", timeout=3).json()
-            CITY = LOC_DATA['city']
-        except Exception as e:
-            CITY = "London"
+        CITY = "London"  # Your default city
     else:
         CITY = city
     
@@ -72,7 +72,7 @@ def home_page(city=""):
             selected_unit=selected_unit
         )
 
-    # Fetch fresh data
+    # Fetch fresh data by city name
     current_url = f"http://api.openweathermap.org/data/2.5/weather?q={CITY}&appid={API_KEY}&units={selected_unit}"
     forecast_url = f"http://api.openweathermap.org/data/2.5/forecast?q={CITY}&appid={API_KEY}&units={selected_unit}"
 
@@ -95,11 +95,17 @@ def home_page(city=""):
                             selected_unit = selected_unit)
         
     if current_data.get("cod") != 200:
+        # Clear invalid data from session
+        session.pop('current_city', None)
+        
         return render_template("index.html", error = "City not found",
                                current_weather = session.get('last_current_weather'),
                                forecast_weather = session.get('last_forecast_weather'), 
                                 hours_weather = session.get('last_hours_weather'), 
                                 selected_unit = selected_unit)
+
+    # City is valid, now store it in session
+    session['current_city'] = CITY
 
     if selected_unit == "metric":
         u = "°C" 
@@ -119,8 +125,9 @@ def home_page(city=""):
         timezone = f"UTC{zone:.0f}"
 
     local_time = datetime.utcfromtimestamp(current_data['dt'] + current_data['timezone']).strftime('%I:%M %p')
-    sunrise = datetime.fromtimestamp(current_data['sys']['sunrise']).strftime("%I:%M %p")
-    sunset = datetime.fromtimestamp(current_data['sys']['sunset']).strftime("%I:%M %p")
+    # FIXED: Apply timezone offset to sunrise and sunset
+    sunrise = datetime.utcfromtimestamp(current_data['sys']['sunrise'] + current_data['timezone']).strftime("%I:%M %p")
+    sunset = datetime.utcfromtimestamp(current_data['sys']['sunset'] + current_data['timezone']).strftime("%I:%M %p")
     temp = f"{round(current_data['main']['temp'])}{u}"
     feels = f"{round(current_data['main']['feels_like'])}{u}"
     weather_des = current_data['weather'][0]['description']
@@ -253,6 +260,7 @@ def home_page(city=""):
         else:
             fore_icon += DEFAULT_ICON  # Fallback for unknown weather
             
+        # Use city name from API for details link
         city_for_details = current_data['name'] 
         forecast_weather.append({
             'city' :  city_for_details,
@@ -286,16 +294,24 @@ def home_page(city=""):
                            hours_weather = hours_weather, 
                            selected_unit = selected_unit)
 
-@app.route("/get_unit",methods = ['POST'])
+@app.route("/get_unit", methods=['POST'])
 def get_unit():
-    data = request.get_json()
-    session['unit'] = data.get('unit','metric')
-    return {"message": "Unit updated successfully"}
+    if request.method == 'POST':
+        data = request.get_json()
+        session['unit'] = data.get('unit','metric')
+        return {"message": "Unit updated successfully"}
+    else:
+        return redirect(url_for('home_page'))
 
-@app.route("/searchCity",methods = ['POST'])
+@app.route("/searchCity", methods=['GET', 'POST'])
 def search_city():
-    CITY = clean_city(request.form.get("city_name",""))
-    return home_page(CITY)
+    if request.method == 'POST':
+        CITY = clean_city(request.form.get("city_name",""))
+        # Don't store in session yet - let home_page() verify it first
+        return home_page(CITY)
+    else:
+        # If someone directly visits /searchCity, redirect to home
+        return redirect(url_for('home_page'))
 
 @app.route("/details/<city>/<date>",methods = ['POST','GET'])
 def details_of_day(city,date):
@@ -381,5 +397,89 @@ def details_of_day(city,date):
 
     return render_template('details_date.html', date = date, city = city, day = day ,weather_list = weather_list)  
 
+@app.route("/location")
+def get_by_coordinates():
+    # Check if city name is provided (from IP geolocation)
+    city = request.args.get('city')
+    if city:
+        city = clean_city(city)
+        # Validate city exists before storing
+        test_url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}"
+        try:
+            test_response = requests.get(test_url, timeout=5).json()
+            if test_response.get('cod') == 200:
+                session['current_city'] = city
+                return redirect(url_for('home_page'))
+        except:
+            pass
+    
+    # Check if coordinates are provided (from GPS)
+    lat = request.args.get('lat')
+    lon = request.args.get('lon')
+    
+    if lat and lon:
+        try:
+            # Strategy 1: Try weather API directly with coordinates (most reliable)
+            weather_url = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}"
+            weather_response = requests.get(weather_url, timeout=5).json()
+            
+            if weather_response.get('cod') == 200:
+                city_name = weather_response.get('name')
+                if city_name and len(city_name) > 2:
+                    # Verify this city name works
+                    verify_url = f"http://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={API_KEY}"
+                    verify_response = requests.get(verify_url, timeout=5).json()
+                    
+                    if verify_response.get('cod') == 200:
+                        session['current_city'] = city_name
+                        return redirect(url_for('home_page'))
+            
+            # Strategy 2: Use reverse geocoding for better results
+            geo_url = f"http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit=10&appid={API_KEY}"
+            geo_response = requests.get(geo_url, timeout=5).json()
+            
+            if geo_response and len(geo_response) > 0:
+                # Try to find the best working city
+                for location in geo_response:
+                    city_name = location.get('name', '')
+                    
+                    # Skip empty or very short names
+                    if not city_name or len(city_name) < 3:
+                        continue
+                    
+                    # Skip names with common problematic patterns
+                    skip_patterns = ['sector', 'block', 'phase', 'colony', 'area', 'district']
+                    if any(pattern in city_name.lower() for pattern in skip_patterns):
+                        continue
+                    
+                    # Skip names that are mostly numbers
+                    if sum(c.isdigit() for c in city_name) > len(city_name) / 2:
+                        continue
+                    
+                    # Test if this city works with weather API
+                    test_url = f"http://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={API_KEY}"
+                    try:
+                        test_response = requests.get(test_url, timeout=3).json()
+                        if test_response.get('cod') == 200:
+                            # Found a working city!
+                            session['current_city'] = city_name
+                            return redirect(url_for('home_page'))
+                    except:
+                        continue
+                
+                # If no city worked, try the first result anyway
+                first_city = geo_response[0].get('name')
+                if first_city and len(first_city) > 2:
+                    session['current_city'] = first_city
+                    return redirect(url_for('home_page'))
+                    
+        except Exception as e:
+            print(f"Coordinate location error: {e}")
+    
+    # If everything fails, clear any invalid session data and redirect to home
+    # This will show the default city (London) instead of an error
+    session.pop('current_city', None)
+    return redirect(url_for('home_page'))
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
